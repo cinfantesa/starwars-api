@@ -31,8 +31,8 @@ public class People {
     private String name;
     private String birthYear;
     private String gender;
-    private Integer height;
-    private Float mass;
+    private String height;
+    private String mass;
     private String eyeColor;
     private String hairColor;
     private String skinColor;

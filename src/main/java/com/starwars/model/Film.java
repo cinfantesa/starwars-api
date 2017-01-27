@@ -3,6 +3,9 @@ package com.starwars.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,6 +27,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "people,planets")
 public class Film {
     @Id
     @GeneratedValue
@@ -43,11 +47,13 @@ public class Film {
     private Date releaseDate;
 
     @ManyToMany
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(joinColumns = {@JoinColumn(name = "film_id")},
             inverseJoinColumns = {@JoinColumn(name = "people_id")})
     private List<People> people;
 
     @ManyToMany
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(joinColumns = {@JoinColumn(name = "film_id")},
             inverseJoinColumns = {@JoinColumn(name = "planet_id")})
     private List<Planet> planets;
