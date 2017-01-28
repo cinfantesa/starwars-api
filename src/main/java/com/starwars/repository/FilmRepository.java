@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface FilmRepository extends JpaRepository<Film, Long>{
+public interface FilmRepository extends JpaRepository<Film, Long>, CustomFilmRepository{
     List<Film> findAllByReleaseDateGreaterThanEqual(Date releaseDate);
 
     @Query("select f from Film f where f.people.size = (select max(f2.people.size) from Film f2)")

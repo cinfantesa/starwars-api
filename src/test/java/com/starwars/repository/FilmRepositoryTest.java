@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,11 +24,22 @@ public class FilmRepositoryTest {
     private FilmRepository filmRepository;
 
     @Test
+    public void should_do_films_pagination() throws Exception {
+        int pageNumber = 0;
+        int pageSize = 2;
+        PageRequest pageRequest = new PageRequest(pageNumber,pageSize);
+        Page<Film> filmPage = filmRepository.findAll(pageRequest);
+    }
+
+    @Test
     public void should_find_all_sorting_by_episode() throws Exception {
+
+        Sort sort = new Sort(Sort.Direction.ASC,"episodeId")
+                .and(new Sort(Sort.Direction.DESC,"releaseDate"));
+
         List<Film> sorted = filmRepository.findAll(new Sort(Sort.Direction.ASC,"episodeId"));
         Assert.assertTrue(sorted.get(0).getEpisodeId() == 7);
         Assert.assertTrue(sorted.get(sorted.size()-1).getEpisodeId() == 1);
-
     }
 
     @Test
@@ -56,5 +69,13 @@ public class FilmRepositoryTest {
         List<Film> films = filmRepository.findAllByPeopleContains("Luke Skywalker");
         Assert.assertNotNull(films);
 
+    }
+
+    @Test
+    public void should_log_film() throws Exception {
+        List<Film> all = filmRepository.findAll();
+        for (Film film : all){
+            filmRepository.logFilm(film);
+        }
     }
 }

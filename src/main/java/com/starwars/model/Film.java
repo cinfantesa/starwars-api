@@ -27,7 +27,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "people,planets")
+@ToString(exclude = {"people", "planets"})
 public class Film {
     @Id
     @GeneratedValue
