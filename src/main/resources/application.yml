@@ -2,3 +2,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+
+schema1:
+  datasource:
+    url: jdbc:mysql://localhost:3306/schema1
+    username: root
+    password: root001
+
+schema2:
+  datasource:
+    url: jdbc:mysql://localhost:3306/schema1
+    username: root
+    password: root001
