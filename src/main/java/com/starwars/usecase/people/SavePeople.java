@@ -10,13 +10,13 @@ public class SavePeople {
     @Autowired
     private PeopleRepository peopleRepository;
 
-    public People execute(People people) throws Exception{
+    public People execute(People people) throws NullPointerException{
         People result = null;
 
         if (people != null){
             result = peopleRepository.save(people);
         } else {
-            throw new Exception("People is null");
+            throw new NullPointerException("People is null");
         }
 
         return result;

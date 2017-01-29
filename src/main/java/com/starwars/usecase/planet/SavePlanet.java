@@ -10,13 +10,13 @@ public class SavePlanet {
     @Autowired
     private PlanetRepository planetRepository;
 
-    public Planet execute(Planet planet) throws Exception{
+    public Planet execute(Planet planet) throws NullPointerException{
         Planet result = null;
 
         if (planet != null){
             result = planetRepository.save(planet);
         } else {
-            throw new Exception("Planet is null");
+            throw new NullPointerException("Planet is null");
         }
 
         return result;

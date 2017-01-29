@@ -10,13 +10,13 @@ public class FindPlanet {
     @Autowired
     private PlanetRepository planetRepository;
 
-    public Planet execute(Long idPlanet) throws Exception{
+    public Planet execute(Long idPlanet) throws NullPointerException{
         Planet result = null;
 
         if (idPlanet != null){
             result = planetRepository.findOne(idPlanet);
         } else {
-            throw new Exception("Planet id is null");
+            throw new NullPointerException("Planet id is null");
         }
 
         return result;

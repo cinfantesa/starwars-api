@@ -12,7 +12,7 @@ public class FindAllPlanets {
     @Autowired
     private PlanetRepository planetRepository;
 
-    public List<Planet> execute() throws Exception{
+    public List<Planet> execute() {
         List<Planet> result = null;
 
         result = planetRepository.findAll();

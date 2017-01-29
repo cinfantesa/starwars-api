@@ -12,13 +12,13 @@ public class FindPeople {
     @Autowired
     private PeopleRepository peopleRepository;
 
-    public People execute(Long idPeople) throws Exception {
+    public People execute(Long idPeople) throws NullPointerException {
         People result = null;
 
         if (idPeople != null){
             result = peopleRepository.findOne(idPeople);
         } else {
-            throw new Exception("People id is null");
+            throw new NullPointerException("People id is null");
         }
 
         return result;

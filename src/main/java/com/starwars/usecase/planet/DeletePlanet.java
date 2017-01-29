@@ -9,11 +9,11 @@ public class DeletePlanet {
     @Autowired
     private PlanetRepository planetRepository;
 
-    public void execute(Long idPlanet) throws Exception{
+    public void execute(Long idPlanet) throws NullPointerException{
         if (idPlanet != null){
             planetRepository.delete(idPlanet);
         } else {
-            throw new Exception("Planet is null");
+            throw new NullPointerException("Planet is null");
         }
     }
 }

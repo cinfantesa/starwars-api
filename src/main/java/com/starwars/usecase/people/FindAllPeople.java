@@ -12,7 +12,7 @@ public class FindAllPeople {
     @Autowired
     private PeopleRepository peopleRepository;
 
-    public List<People> execute() throws Exception {
+    public List<People> execute() {
         List<People> result = null;
 
         result = peopleRepository.findAll();
