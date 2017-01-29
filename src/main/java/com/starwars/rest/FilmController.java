@@ -1,16 +1,13 @@
 package com.starwars.rest;
 
 import com.starwars.model.Film;
-import com.starwars.model.Film;
 import com.starwars.usecase.film.DeleteFilm;
 import com.starwars.usecase.film.FindAllFilm;
 import com.starwars.usecase.film.FindFilm;
 import com.starwars.usecase.film.SaveFilm;
-import com.starwars.usecase.Film.DeleteFilm;
-import com.starwars.usecase.Film.FindAllFilm;
-import com.starwars.usecase.Film.FindFilm;
-import com.starwars.usecase.Film.SaveFilm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,18 +33,33 @@ public class FilmController {
     private DeleteFilm deleteFilm;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Film> findAll() {
-        return findAllFilm.execute();
+    public ResponseEntity<List<Film>> findAll() {
+        ResponseEntity<List<Film>> result;
+
+        List<Film> films = findAllFilm.execute();
+        result = new ResponseEntity<List<Film>>(films, HttpStatus.OK);
+
+        return result;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Film save(@RequestBody Film Film) {
-        return saveFilm.execute(Film);
+    public ResponseEntity<Film> save(@RequestBody Film Film) {
+        ResponseEntity<Film> result;
+
+        Film saved = saveFilm.execute(Film);
+        result = new ResponseEntity<com.starwars.model.Film>(saved,HttpStatus.CREATED);
+
+        return result;
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public Film findById(@PathVariable Long id) {
-        return findFilm.execute(id);
+    public ResponseEntity<Film> findById(@PathVariable Long id) {
+        ResponseEntity<Film> result;
+
+        Film found = findFilm.execute(id);
+        result = new ResponseEntity<Film>(found,HttpStatus.OK);
+
+        return result;
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)

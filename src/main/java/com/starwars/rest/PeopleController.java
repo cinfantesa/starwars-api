@@ -6,6 +6,8 @@ import com.starwars.usecase.people.FindAllPeople;
 import com.starwars.usecase.people.FindPeople;
 import com.starwars.usecase.people.SavePeople;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,18 +33,33 @@ public class PeopleController {
     private DeletePeople deletePeople;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<People> findAll() {
-        return findAllPeople.execute();
+    public ResponseEntity<List<People>> findAll() {
+        ResponseEntity<List<People>> result;
+
+        List<People> people = findAllPeople.execute();
+        result = new ResponseEntity<List<People>>(people, HttpStatus.OK);
+
+        return result;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public People save(@RequestBody People people) {
-        return savePeople.execute(people);
+    public ResponseEntity<People> save(@RequestBody People people) {
+        ResponseEntity<People> result;
+
+        People saved = savePeople.execute(people);
+        result = new ResponseEntity<People>(saved,HttpStatus.CREATED);
+
+        return result;
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public People findById(@PathVariable Long id) {
-        return findPeople.execute(id);
+    public ResponseEntity<People> findById(@PathVariable Long id) {
+        ResponseEntity<People> result;
+
+        People found = findPeople.execute(id);
+        result = new ResponseEntity<People>(found,HttpStatus.OK);
+
+        return result;
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)

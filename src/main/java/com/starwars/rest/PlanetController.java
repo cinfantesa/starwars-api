@@ -6,6 +6,8 @@ import com.starwars.usecase.planet.FindAllPlanets;
 import com.starwars.usecase.planet.FindPlanet;
 import com.starwars.usecase.planet.SavePlanet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,18 +33,33 @@ public class PlanetController {
     private DeletePlanet deletePlanet;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Planet> findAll() {
-        return findAllPlanets.execute();
+    public ResponseEntity<List<Planet>> findAll() {
+        ResponseEntity<List<Planet>> result;
+
+        List<Planet> planets = findAllPlanets.execute();
+        result = new ResponseEntity<List<Planet>>(planets, HttpStatus.OK);
+
+        return result;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Planet save(@RequestBody Planet planet) {
-        return savePlanet.execute(planet);
+    public ResponseEntity<Planet> save(@RequestBody Planet planet) {
+        ResponseEntity<Planet> result;
+
+        Planet saved = savePlanet.execute(planet);
+        result = new ResponseEntity<Planet>(saved,HttpStatus.CREATED);
+
+        return result;
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public Planet update(@PathVariable("id") Long id){
-        return findPlanet.execute(id);
+    public ResponseEntity<Planet> update(@PathVariable("id") Long id){
+        ResponseEntity<Planet> result;
+
+        Planet updated = findPlanet.execute(id);
+        result = new ResponseEntity<Planet>(updated,HttpStatus.OK);
+
+        return result;
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
