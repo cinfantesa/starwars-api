@@ -1,11 +1,15 @@
 package com.starwars.rest;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import com.starwars.model.Planet;
 import com.starwars.usecase.planet.DeletePlanet;
 import com.starwars.usecase.planet.FindAllPlanets;
 import com.starwars.usecase.planet.FindPlanet;
 import com.starwars.usecase.planet.SavePlanet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -37,6 +41,11 @@ public class PlanetController {
         ResponseEntity<List<Planet>> result;
 
         List<Planet> planets = findAllPlanets.execute();
+        planets.forEach((planet -> {
+            Link selfLink = linkTo(methodOn(PlanetController.class).findById(planet.getPlanetId())).withSelfRel();
+            planet.add(selfLink);
+        }));
+
         result = new ResponseEntity<List<Planet>>(planets, HttpStatus.OK);
 
         return result;
@@ -53,7 +62,7 @@ public class PlanetController {
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Planet> update(@PathVariable("id") Long id){
+    public ResponseEntity<Planet> findById(@PathVariable("id") Long id){
         ResponseEntity<Planet> result;
 
         Planet updated = findPlanet.execute(id);
