@@ -32,23 +32,20 @@ public class PlanetController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Planet> findAll() {
-        List<Planet> result = null;
-
-        result = findAllPlanets.execute();
-
-        return result;
+        return findAllPlanets.execute();
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public Planet save(@RequestBody Planet planet) {
-        Planet result = null;
-
-        result = save(planet);
-
-        return result;
+        return savePlanet.execute(planet);
     }
 
-    @RequestMapping(path = "{id}", method = RequestMethod.PUT)
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    public Planet update(@PathVariable("id") Long id){
+        return findPlanet.execute(id);
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable("id") Long id, @RequestBody Planet planet){
         Planet found = findPlanet.execute(id);
         if (found != null){
@@ -56,7 +53,7 @@ public class PlanetController {
         }
     }
 
-    @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
         deletePlanet.execute(id);
     }
