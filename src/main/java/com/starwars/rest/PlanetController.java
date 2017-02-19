@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@Controller
+//@Controller
 @RequestMapping(path = "/planets")
 public class PlanetController {
 

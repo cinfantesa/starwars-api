@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.xml.ws.Response;
 import java.util.List;
 
-@Controller
+//@Controller
 @RequestMapping(path = "/films")
 public class FilmController {
 
