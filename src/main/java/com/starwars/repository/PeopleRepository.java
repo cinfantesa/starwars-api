@@ -9,7 +9,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.Collection;
 import java.util.List;
 
-@RepositoryRestResource(excerptProjection = PeopleWithNoPersonalInfo.class)
+@RepositoryRestResource(excerptProjection = PeopleWithNoPersonalInfo.class,
+                        path = "persons",
+                        collectionResourceRel = "persons")
 public interface PeopleRepository extends JpaRepository<People,Long>{
     People findByNameIgnoreCase(String name);
     List<People> findByHeightGreaterThanEqual(Integer height);
