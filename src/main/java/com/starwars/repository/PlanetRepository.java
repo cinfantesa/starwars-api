@@ -8,7 +8,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource(excerptProjection = PlanetOnlyNameAndPopulation.class)
 public interface PlanetRepository extends JpaRepository<Planet,Long>{
     Planet findByName(String name);
     List<Planet> findByNameContaining(@Param("name") String name);
