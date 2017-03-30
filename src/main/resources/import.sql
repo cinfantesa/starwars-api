@@ -46,3 +46,4 @@
 
 -- Account
   insert into account (id, username, password) values ('1', 'admin', 'admin')
+  insert into account (id, username, password) values ('2', 'basic', 'basic')
