@@ -7,8 +7,3 @@ server:
   error:
     whitelabel:
       enabled: false
-
-security:
-  user:
-    name: admin
-    password: adminPass
