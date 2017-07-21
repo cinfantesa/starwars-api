@@ -43,7 +43,3 @@
   insert into film_people (film_id, people_id) values (2,1)
   insert into film_people (film_id, people_id) values (2,2)
   insert into film_people (film_id, people_id) values (2,4)
-
--- Account
-  insert into account (id, username, password) values ('1', 'admin', 'admin')
-  insert into account (id, username, password) values ('2', 'basic', 'basic')
