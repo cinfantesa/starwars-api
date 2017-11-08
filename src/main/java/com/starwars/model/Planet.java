@@ -1,10 +1,8 @@
 package com.starwars.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -12,22 +10,16 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
 
 @Entity
-@EntityListeners({AuditingEntityListener.class})
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@EntityListeners({AuditingEntityListener.class})
 public class Planet extends ResourceSupport{
     @Id
     @GeneratedValue
     private Long planetId;
-
-    @CreatedDate
-    private LocalDateTime created;
-    @LastModifiedDate
-    private LocalDateTime edited;
 
     private String name;
     private Integer rotationPeriod;

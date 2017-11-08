@@ -5,9 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class FilmRepositoryImpl implements CustomFilmRepository {
-
     @Override
     public void logFilm(Film film) {
-        log.info(film.toString());
+      log.info(film.toString());
     }
 }
