@@ -6,6 +6,7 @@ import com.starwars.usecase.planet.FindAllPlanets;
 import com.starwars.usecase.planet.FindPlanet;
 import com.starwars.usecase.planet.SavePlanet;
 import lombok.AllArgsConstructor;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -29,7 +32,13 @@ public class PlanetController {
 
     @RequestMapping(method = GET)
     public List<Planet> findAll() {
-        return findAllPlanets.execute();
+        List<Planet> planets = findAllPlanets.execute();
+        planets.forEach((planet -> {
+            Link selfLink = linkTo(methodOn(PlanetController.class).findById(planet.getPlanetId())).withSelfRel();
+            planet.add(selfLink);
+        }));
+
+        return planets;
     }
 
     @RequestMapping(method = POST)
@@ -38,7 +47,7 @@ public class PlanetController {
     }
 
     @RequestMapping(path = "/{id}", method = GET)
-    public Planet update(@PathVariable("id") Long id){
+    public Planet findById(@PathVariable("id") Long id){
         return findPlanet.execute(id);
     }
 
