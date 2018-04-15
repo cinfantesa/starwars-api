@@ -1,22 +1,19 @@
 package com.starwars.rest;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
+@RestController
 @RequestMapping(path = "/links")
 public class LinksController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<ResourceSupport> findAll(){
-        ResponseEntity<ResourceSupport> result;
+    public ResourceSupport findAll(){
         ResourceSupport resource = new ResourceSupport();
 
         Link swapiLink = new Link("http://swapi.com");
@@ -29,8 +26,6 @@ public class LinksController {
         resource.add(peopleLink);
         resource.add(planetsLink);
 
-        result = new ResponseEntity<ResourceSupport>(resource, HttpStatus.OK);
-
-        return result;
+        return resource;
     }
 }
