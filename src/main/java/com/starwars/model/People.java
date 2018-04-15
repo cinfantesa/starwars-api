@@ -10,8 +10,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @EntityListeners({AuditingEntityListener.class})
@@ -20,7 +23,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class People {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Long peopleId;
 
     @CreatedDate

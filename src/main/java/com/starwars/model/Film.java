@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -21,6 +22,8 @@ import javax.persistence.ManyToMany;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @EntityListeners({AuditingEntityListener.class})
@@ -30,7 +33,7 @@ import java.util.List;
 @ToString(exclude = {"people", "planets"})
 public class Film {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Long filmId;
 
     @CreatedDate

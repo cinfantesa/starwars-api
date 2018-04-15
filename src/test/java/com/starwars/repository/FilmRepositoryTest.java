@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,15 +16,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@DataJpaTest
 public class FilmRepositoryTest {
 
     @Autowired
     private FilmRepository filmRepository;
 
     @Test
-    public void should_do_films_pagination() throws Exception {
+    public void should_do_films_pagination() {
         int pageNumber = 0;
         int pageSize = 2;
         PageRequest pageRequest = new PageRequest(pageNumber,pageSize);
@@ -32,14 +34,14 @@ public class FilmRepositoryTest {
     }
 
     @Test
-    public void should_find_all_sorting_by_episode() throws Exception {
+    public void should_find_all_sorting_by_episode() {
 
         Sort sort = new Sort(Sort.Direction.ASC,"episodeId")
                 .and(new Sort(Sort.Direction.DESC,"releaseDate"));
 
-        List<Film> sorted = filmRepository.findAll(new Sort(Sort.Direction.ASC,"episodeId"));
-        Assert.assertTrue(sorted.get(0).getEpisodeId() == 7);
-        Assert.assertTrue(sorted.get(sorted.size()-1).getEpisodeId() == 1);
+        List<Film> sorted = filmRepository.findAll(new Sort(Sort.Direction.DESC,"episodeId"));
+        assertEquals(7, (int) sorted.get(0).getEpisodeId());
+        assertEquals(1, (int) sorted.get(sorted.size() - 1).getEpisodeId());
     }
 
     @Test
@@ -53,26 +55,26 @@ public class FilmRepositoryTest {
     }
 
     @Test
-    public void should_find_most_people_films() throws Exception {
+    public void should_find_most_people_films() {
         List<Film> films = filmRepository.findAllByMaxPeople();
         Assert.assertNotNull(films);
     }
 
     @Test
-    public void should_find_less_planets_films() throws Exception {
+    public void should_find_less_planets_films() {
         List<Film> films = filmRepository.findAllByMinPlanets();
         Assert.assertNotNull(films);
     }
 
     @Test
-    public void should_find_film_with_people() throws Exception {
+    public void should_find_film_with_people() {
         List<Film> films = filmRepository.findAllByPeopleContains("Luke Skywalker");
         Assert.assertNotNull(films);
 
     }
 
     @Test
-    public void should_log_film() throws Exception {
+    public void should_log_film() {
         List<Film> all = filmRepository.findAll();
         for (Film film : all){
             filmRepository.logFilm(film);
