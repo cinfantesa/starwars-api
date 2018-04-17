@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static org.springframework.util.Assert.notNull;
+
 @Service
 @AllArgsConstructor
 public class SaveFilm {
@@ -19,17 +21,10 @@ public class SaveFilm {
     private PeopleRepository peopleRepository;
 
     public Film execute(Film film) throws NullPointerException {
-        Film result;
-
-        if (film != null){
-            createPlanetsWhenNotExists(film.getPlanets());
-            createPeopleWhenNotExists(film.getPeople());
-            result = filmRepository.save(film);
-        } else {
-            throw new NullPointerException("Film is null");
-        }
-
-        return result;
+        notNull(film, "Film id cannot be null");
+        createPlanetsWhenNotExists(film.getPlanets());
+        createPeopleWhenNotExists(film.getPeople());
+        return filmRepository.save(film);
     }
 
     private void createPlanetsWhenNotExists(List<Planet> planets) {

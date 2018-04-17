@@ -4,6 +4,9 @@ import com.starwars.model.Planet;
 import com.starwars.repository.PlanetRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import static org.springframework.util.Assert.notNull;
 
 @Service
 @AllArgsConstructor
@@ -11,13 +14,9 @@ public class FindPlanet {
     private final PlanetRepository planetRepository;
 
     public Planet execute(Long idPlanet) throws NullPointerException{
-        Planet result = null;
+        notNull(idPlanet, "Planet id cannot be null");
 
-        if (idPlanet != null){
-            result = planetRepository.findById(idPlanet)
-                .orElseThrow(NullPointerException::new);
-        }
-
-        return result;
+        return planetRepository.findById(idPlanet)
+            .orElseThrow(NullPointerException::new);
     }
 }
