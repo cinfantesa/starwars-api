@@ -7,6 +7,7 @@ import com.starwars.usecase.planet.FindPlanet;
 import com.starwars.usecase.planet.SavePlanet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,6 +16,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,5 +46,17 @@ public class PlanetControllerTest {
         Mockito.when(findAllPlanets.execute()).thenReturn(asList(planet1, planet2));
 
         mockMvc.perform(get("/planets/")).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    public void should_return_planet_from_id() throws Exception {
+        Long id = 1L;
+
+        mockMvc.perform(get("/planets/1")).andDo(print()).andExpect(status().isOk());
+
+        ArgumentCaptor<Long> idCaptor = ArgumentCaptor.forClass(Long.class);
+        verify(findPlanet, times(1)).execute(idCaptor.capture());
+
+        assertThat(idCaptor.getValue(), is(id));
     }
 }

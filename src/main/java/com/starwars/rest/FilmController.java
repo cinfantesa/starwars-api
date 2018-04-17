@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -36,24 +37,7 @@ public class FilmController {
     public List<Film> findAll() {
         List<Film> films = findAllFilm.execute();
 
-        films.forEach((Film f) -> {
-            f.getPlanets().forEach((Planet p) -> {
-                if (!p.hasLink("self")) {
-                    Link linkTo = linkTo(methodOn(PlanetController.class).findById(p.getPlanetId())).withRel("self");
-                    p.add(linkTo);
-                }
-            });
-
-            f.getPeople().forEach((People p) -> {
-                if (!p.hasLink("self")) {
-                    Link linkTo = linkTo(methodOn(PeopleController.class).findById(p.getPeopleId())).withRel("self");
-                    p.add(linkTo);
-                }
-            });
-
-            Link deleteLink = linkTo(FilmController.class).slash(f.getFilmId()).withRel("delete");
-            f.add(deleteLink);
-        });
+        films.forEach(addLinks());
 
         return films;
     }
@@ -65,7 +49,10 @@ public class FilmController {
 
     @RequestMapping(path = "/{id}", method = GET)
     public Film findById(@PathVariable Long id) {
-        return findFilm.execute(id);
+        Film film = findFilm.execute(id);
+        film.add(new Link("www.google.es"));
+
+        return film;
     }
 
     @RequestMapping(path = "/{id}", method = PUT)
@@ -79,5 +66,33 @@ public class FilmController {
     @RequestMapping(path = "/{id}", method = DELETE)
     public void delete(@PathVariable Long id) {
         deleteFilm.execute(id);
+    }
+
+    private Consumer<Film> addLinks() {
+        return (Film f) -> {
+            f.getPlanets().forEach(addLinkToPlanet());
+
+            f.getPeople().forEach(addLinkToPeople());
+
+            f.add(linkTo(PlanetController.class).withRel("planets"));
+        };
+    }
+
+    private Consumer<People> addLinkToPeople() {
+        return (People p) -> {
+            if (!p.hasLink("self")) {
+                Link linkTo = linkTo(methodOn(PeopleController.class).findById(p.getPeopleId())).withSelfRel();
+                p.add(linkTo);
+            }
+        };
+    }
+
+    private Consumer<Planet> addLinkToPlanet() {
+        return (Planet p) -> {
+            if (!p.hasLink("self")) {
+                Link linkTo = linkTo(methodOn(PlanetController.class).findById(p.getPlanetId())).withSelfRel();
+                p.add(linkTo);
+            }
+        };
     }
 }
