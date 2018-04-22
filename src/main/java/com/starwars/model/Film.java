@@ -1,6 +1,7 @@
 package com.starwars.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -32,6 +33,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString(exclude = {"people", "planets"})
 public class Film extends ResourceSupport{
     @Id
