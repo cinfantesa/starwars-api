@@ -1,6 +1,7 @@
 package com.starwars.repository;
 
 import com.starwars.model.People;
+import com.starwars.model.PeopleOnlyName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ public interface PeopleRepository extends JpaRepository<People,Long>, CustomPeop
     People findByNameIgnoreCase(String name);
     List<People> findByHeightGreaterThanEqual(Integer height);
     List<People> findByEyeColorIn(Collection<String> eyeColors);
-    List<People> findFirst20ByOrderByMassDesc();
+    List<PeopleOnlyName> findFirst20ByOrderByMassDesc();
     List<People> findByEyeColorInOrderByNameAsc(Collection<String> eyeColors);
 
 //    @Query("select p from People p where p.name like 'S%'")
