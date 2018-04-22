@@ -8,6 +8,7 @@ import com.starwars.usecase.film.FindAllFilm;
 import com.starwars.usecase.film.FindFilm;
 import com.starwars.usecase.film.SaveFilm;
 import lombok.AllArgsConstructor;
+import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +34,8 @@ public class FilmController {
     private final FindFilm findFilm;
     private final DeleteFilm deleteFilm;
 
+    private final EntityLinks entityLinks;
+
     @RequestMapping(method = GET)
     public List<Film> findAll() {
         List<Film> films = findAllFilm.execute();
@@ -51,6 +54,9 @@ public class FilmController {
     public Film findById(@PathVariable Long id) {
         Film film = findFilm.execute(id);
         film.add(new Link("www.google.es"));
+
+        film.getPlanets()
+            .forEach(planet -> planet.add(entityLinks.linkToSingleResource(Planet.class, planet.getId())));
 
         return film;
     }

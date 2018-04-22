@@ -6,6 +6,7 @@ import com.starwars.usecase.planet.FindAllPlanets;
 import com.starwars.usecase.planet.FindPlanet;
 import com.starwars.usecase.planet.SavePlanet;
 import lombok.AllArgsConstructor;
+import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @AllArgsConstructor
+@ExposesResourceFor(Planet.class)
 @RequestMapping(path = "/planets")
 public class PlanetController {
     private final SavePlanet savePlanet;
