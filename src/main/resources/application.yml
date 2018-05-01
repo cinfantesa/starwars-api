@@ -6,10 +6,3 @@ server:
   error:
     whitelabel:
       enabled: false
-
-starwars:
-  enabled: true
-  episodes: 8
-  characters:
-    - "Luke"
-    - "BB8"

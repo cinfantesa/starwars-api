@@ -4,12 +4,13 @@ import com.starwars.model.People;
 import com.starwars.model.PeopleOnlyName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
 
-@Repository
+@RepositoryRestResource(excerptProjection = PeopleOnlyName.class)
 public interface PeopleRepository extends JpaRepository<People,Long>, CustomPeopleRepository{
     People findByNameIgnoreCase(String name);
     List<People> findByHeightGreaterThanEqual(Integer height);
